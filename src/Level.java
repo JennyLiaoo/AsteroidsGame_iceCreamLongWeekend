@@ -6,25 +6,12 @@ public abstract class Level extends LevelVariables{   //contains all the require
     protected double playerX = 0;
     protected double playerY = 0;
 
+    public void summonAll(int probAsteroid, int asteroidLevel, int probAlien, int probPower) {
+        summonAlien(probAlien);
+        summonAsteroid(probAsteroid,asteroidLevel);
+        summonPower(probPower);
+    }
 
-    public void summonAsteroid(int prob, int lvl) {
-        boolean generated = asteroidGenerator.checkIfGenerate(prob);
-        if(generated) {
-            entity.add(asteroidFactory.getAsteroid(levelGenerator.generateLvl(lvl)));
-        }
-    }
-    public void summonAlien(int prob) {
-        boolean generated = alienGenerator.checkIfGenerate(prob);
-        if(generated) {
-            aliens.add(alienFactory.getAlien());
-        }
-    }
-    public void summonPower(int prob) { //if collide with smt, it will disappear
-        boolean generated = powerUpGenerator.checkIfGenerate(prob);
-        if(generated) {
-            powers.add(powerFactory.getPower());
-        }
-    }
     public void replaceAsteroid(double tempIndex) { //if gun collide with asteroid return true, index of asteroid in array
         int index = (int)tempIndex;
         if(entity.get(index).getLevel() != 1) {

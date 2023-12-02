@@ -59,33 +59,29 @@ public class Main extends Application {     //contains graphics, inputs and game
                 // Rotate left
                 lvlHandler.getPlayer().turnLeft();
             }
-            else if (event.getCode() == KeyCode.M) {
-                //testing in progress
-                lvlHandler.replaceAsteroid();
-            }
-            else if (event.getCode() == KeyCode.N) {
-                //testing in progress
-                lvlHandler.enhanceAsteroid();
-            }
             if (event.getCode() == KeyCode.L) {
-                lvlHandler.getPlayer().shoot();
+                if(lvlHandler.getPlayer().getTimer() > 0) {
+                    lvlHandler.getPlayer().shootEnhanced();
+                }
+                else {
+                    lvlHandler.getPlayer().shoot();
+                }
+
             }
-            else if (event.getCode() == KeyCode.K) {
-                //would be same button as L but would call method that checks if player collided with powerUp already. if true, uses enhanced shoot
-                lvlHandler.getPlayer().shootEnhanced();
+
+            if (event.getCode() == KeyCode.K) {
+                lvlHandler.getPlayer().setTimer(100);
+
             }
             //level change testing
             if (event.getCode() == KeyCode.I) { //level change test
                 lvlHandler = new LvlHandler(1);
-                System.out.println("Level 1");
             }
             if (event.getCode() == KeyCode.O) { //level change test
                 lvlHandler = new LvlHandler(2);
-                System.out.println("Level 2");
             }
             if (event.getCode() == KeyCode.P) { //level change test
                 lvlHandler = new LvlHandler(3);
-                System.out.println("Level 3");
             }
         });
 //creating the game loop

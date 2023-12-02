@@ -31,7 +31,9 @@ public class Alien extends Shooters{
     public void setAngle(double a) {
         velocity.setAngle(a);
         rotation = a;
-
+    }
+    public void setSpeed() {
+        velocity.setSize(velocity.getSize()+3);
     }
     public void draw(GraphicsContext pen) {
         pen.drawImage(picture, position.getX(), position.getY(), size, size);
@@ -43,7 +45,9 @@ public class Alien extends Shooters{
 
     @Override
     public boolean isColliding(GameObject other) {
-        return false;
+        return super.isColliding(other);
+
+
     }
     public ArrayList<Bullet> getBullets() {
         return b;

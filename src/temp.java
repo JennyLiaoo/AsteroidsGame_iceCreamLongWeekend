@@ -2,16 +2,16 @@ public class temp {
 
     /*
     case 1
-    bullet collide with asteroid (done)
+    bullet collide with asteroid (done)!!
     - replaceAsteroid()
     + points
 
     case 2
-    bullet collide with person
+    bullet collide with person (done)!!
     - game over
 
     case 3
-    bullet collide with alien
+    bullet collide with alien (done)!!
     - remove alien from arraylist
     + points
 
@@ -19,15 +19,15 @@ public class temp {
 
     /*
     case 4
-    asteroid and player (doneish)
+    asteroid and player (done)!!
     - game over
 
     case 5
-    asteroid and boundary (done)
+    asteroid and boundary (done)!!
     - remove asteroid from arraylist
 
     case 6
-    asteroid and power up (done)
+    asteroid and power up (done)!!
     enhanceAsteroid()
 
      */

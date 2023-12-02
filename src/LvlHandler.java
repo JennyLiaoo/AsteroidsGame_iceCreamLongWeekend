@@ -10,39 +10,29 @@ public class LvlHandler implements Drawable{      //depending on user input, wil
 
     public LvlHandler(int lvl) {
         level = levelFactory.getLevel(lvl);
-        player = new Player(1, 400, 300 );
+        player = new Player(5, 400, 300 );
     }
 
     public Level getLevel() { //returns level obj
         return level;
     }
 
-    public void replaceAsteroid() {
-        level.replaceAsteroid(0);
-    }       //need index of collided/enhanced asteroid
-    public void enhanceAsteroid() {
-        level.enhanceAsteroid(0);
-    }
     @Override
     public void draw(GraphicsContext pen) {
-
-
-        level.summonAsteroid(level.getProbAsteroid(), level.getLvl());
-        level.summonPower(level.getProbPower());
-        level.summonAlien(level.getProbAlien());
+        level.summonAll(level.getProbAsteroid(), level.getLvl(), level.getProbAlien(), level.getProbPower());
         level.draw(pen);
         player.drawBul(pen);
-        //collision stuff
+
         collisionHandler = new CollisionHandler(level, player);         //change to end screen instead
         int temp = collisionHandler.checkPlayerCollisions();
         if(temp >= 0) {
             level.getAsteroids().remove(temp);
+            player.decreaseLevel();     //decrease player level
         }
         PVector temp2 = collisionHandler.checkBulletCollisions();
         if(temp2.getX() != -1 && temp2.getY() != -1) {
             player.getBullets().remove((int)temp2.getX());
             level.replaceAsteroid(temp2.getY());
-
         }
         PVector temp3 = collisionHandler.checkAsteroidCollisions();
         if(temp3.getX() != -1 && temp3.getY() != -1) {
@@ -51,12 +41,27 @@ public class LvlHandler implements Drawable{      //depending on user input, wil
         }
         PVector temp4 = collisionHandler.checkAlienBulletCollision();       //change to end screen instead
         if(temp4.getX() != -1 && temp4.getY() != -1) {
+            player.decreaseLevel();     //decrease player level
             level.getAliens().get((int)temp4.getX()).getBullets().remove((int)temp4.getY());
-            level.getAliens().remove((int)temp4.getX());
-
         }
-
-
+        PVector temp5 = collisionHandler.checkPlayerBulletCollision();
+        if(temp5.getX() != -1 && temp5.getY() != -1) {
+            level.getAliens().remove((int)temp5.getX());
+            player.getBullets().remove((int)temp5.getY());
+        }
+        PVector temp6 = collisionHandler.checkAlienPowerCollision();
+        if(temp6.getX() != -1 && temp6.getY() != -1) {
+            level.getAliens().get((int) temp6.getY()).setSpeed();
+            level.getPowerUps().remove((int)temp6.getX());
+        }
+        int temp7 = collisionHandler.checkPlayerPowerCollisions();
+        if(temp7 >= 0) {
+            level.getPowerUps().remove(temp7);
+            player.setTime();
+        }
+         if(player.getLevel() <= 0) {
+             System.out.println("Player level has decreased and it has died");
+         }
     }
     public void drawPlayer(GraphicsContext pen) {
         player.draw(pen);

@@ -12,5 +12,16 @@ public abstract class GameObject implements Collideable, Drawable{
         return position;
     }
 
+    public boolean isColliding(GameObject other) {
+        PVector otherPosition = other.getPos();
+        double otherRadius = other.getSize();
+
+        double dx = position.getX() - otherPosition.getX();
+        double dy = position.getY() - otherPosition.getY();
+        double distance = Math.sqrt(dx * dx + dy * dy);
+
+        return distance < (this.getSize() + otherRadius);
+    }
+
 
 }
