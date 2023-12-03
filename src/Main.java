@@ -1,4 +1,5 @@
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -17,6 +18,9 @@ public class Main extends Application {
     private GraphicsContext gc;
     private LvlHandler lvlHandler;
     private Canvas canvas;
+    private Label scoreLabel;
+    private Label playerLevelLabel;
+
 
     public static void main(String[] args) {
         launch(args);
@@ -56,7 +60,15 @@ public class Main extends Application {
         StackPane.setAlignment(levelLabel, Pos.TOP_RIGHT);
         StackPane.setMargin(levelLabel, new Insets(10));
 
-        gameRoot.getChildren().addAll(canvas, levelLabel);
+        this.scoreLabel = createScoreKeeperLabel(lvlHandler.getPlayer().getScore()); // Initialize score label
+        StackPane.setAlignment(scoreLabel, Pos.TOP_LEFT);
+        StackPane.setMargin(scoreLabel, new Insets(10));
+
+        this.playerLevelLabel = createPlayerLevelLabel(lvlHandler.getPlayer().getLevel()); // Initialize player level label
+        StackPane.setAlignment(playerLevelLabel, Pos.BOTTOM_CENTER);
+        StackPane.setMargin(playerLevelLabel, new Insets(10, 0, 20, 0)); // Adjust margins as needed
+
+        gameRoot.getChildren().addAll(canvas, levelLabel, scoreLabel, playerLevelLabel); // Add player level label to the root
 
         Scene gameScene = new Scene(gameRoot, 800, 600);
         setupKeyHandling(gameScene);
@@ -65,9 +77,13 @@ public class Main extends Application {
         return gameScene;
     }
 
+
     private void switchToGameOverScene() {
-        GameOverScene gameOverSceneObj = new GameOverScene(primaryStage);
-        Scene gameOverScene = gameOverSceneObj.createGameOverScene();
+        int finalScore = lvlHandler.getPlayer().getScore(); // Get the final score from the player
+
+        GameOverScene gameOverSceneObj = new GameOverScene(primaryStage, finalScore); // Create a GameOverScene object
+        Scene gameOverScene = gameOverSceneObj.createGameOverScene(); // Create the scene
+
         primaryStage.setScene(gameOverScene);
         primaryStage.show();
     }
@@ -78,6 +94,32 @@ public class Main extends Application {
         levelLabel.setFont(new Font("Arial", 20));
         return levelLabel;
     }
+
+    private Label createScoreKeeperLabel(int score) {
+        Label scoreKeeperLabel = new Label("CurrentScore: " + score);
+        scoreKeeperLabel.setTextFill(Color.WHITE);
+        scoreKeeperLabel.setFont(new Font("Arial", 20));
+        return scoreKeeperLabel;
+    }
+    private void updateScoreDisplay() {
+        Platform.runLater(() -> {
+            scoreLabel.setText("Score: " + lvlHandler.getPlayer().getScore());
+        });
+    }
+    private Label createPlayerLevelLabel(int level) {
+        Label levelLabel = new Label("Life Remain: " + level);
+        levelLabel.setTextFill(Color.WHITE); // Set the text color
+        levelLabel.setFont(new Font("Arial", 20)); // Set the font size and style as needed
+        return levelLabel;
+    }
+
+    private void updatePlayerLevelDisplay() {
+        Platform.runLater(() -> {
+            playerLevelLabel.setText("Life Remain: " + lvlHandler.getPlayer().getLevel());
+        });
+    }
+
+
 
     private void setupKeyHandling(Scene mainScene) {
         mainScene.setOnKeyPressed(event -> {
@@ -111,6 +153,7 @@ public class Main extends Application {
      */
 
     private void setupGameLoop() {
+
         new AnimationTimer() {
             @Override
             public void handle(long now) {
@@ -122,6 +165,8 @@ public class Main extends Application {
                 gc.rotate(lvlHandler.getPlayer().getAngle());
                 lvlHandler.drawPlayer(gc);
                 gc.restore();
+                updateScoreDisplay(); // Update the score display
+                updatePlayerLevelDisplay();
             }
         }.start();
     }

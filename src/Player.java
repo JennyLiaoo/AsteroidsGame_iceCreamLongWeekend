@@ -3,6 +3,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 public class Player extends Shooters{
     private GameOverCallback gameOverCallback;
+    private int score;
 
     private Image user = new Image("file:src/Images/spaceship.png");
     public Player(int level, double x, double y) {
@@ -10,10 +11,33 @@ public class Player extends Shooters{
         this.position= new PVector(x, y);
         this.velocity = new PVector(0, 0);
         this.rotation = 0;
+        this.score=0;
         lvl = level;
         b = new ArrayList<>();
 
     }
+    public void incrementScore(int asteroidLevel) {
+        switch (asteroidLevel) {
+            case 1:
+                score += 100;
+                break;
+            case 2:
+                score += 200;
+                break;
+            case 3:
+                score += 300;
+                break;
+            default:
+                // Handle other cases if needed
+                break;
+        }
+        System.out.println("Score: " + score); // Print updated score
+    }
+
+    public int getScore() {
+        return score;
+    }
+
     public void accelerate() {
 
         if(velocity.getSize() <= 5) {
@@ -97,6 +121,7 @@ public class Player extends Shooters{
             gameOver();
         }
     }
+
     public void setGameOverCallback(GameOverCallback callback) {
         this.gameOverCallback = callback;
     }
