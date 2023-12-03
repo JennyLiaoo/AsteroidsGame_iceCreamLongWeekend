@@ -69,8 +69,9 @@ public class StartGameScene extends Application {
     }
 
     private void switchToGameScene() {
-        // Switch to the game scene in Main class
-        new Main().startGame(primaryStage);
+        int currentLevel = levelLabel.getCurrentLevel();
+        Main game = new Main();
+        game.startGame(primaryStage, currentLevel);
     }
 
     private void switchToUserGuide() {

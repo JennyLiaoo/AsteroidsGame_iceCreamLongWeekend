@@ -10,15 +10,15 @@ public class Asteroid extends Entity{
         velocity.setSize(Math.random()*3+0.5);
         velocity.setAngle(angle);
         if(level == 1) {
-            picture = new Image("file:src/Images/Icons_22.png");
+            picture = new Image("file:src/Images/asteroid_level1.png");
             size = 50;
         }
         else if(level == 2) {
-            picture = new Image("file:src/Images/Icons_23.png");
+            picture = new Image("file:src/Images/asteroid_level2.png");
             size = 75;
         }
         else if(level == 3) {
-            picture = new Image("file:src/Images/Icons_24.png");
+            picture = new Image("file:src/Images/asteroid_level3.png");
             size = 100;
         }
     }

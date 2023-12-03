@@ -43,8 +43,12 @@ public class LevelLabel {
         levelLabel.setText("Level " + currentLevel);
     }
 
+    public int getCurrentLevel(){
+        return currentLevel;
+    }
     // Method to move the label around
     public void setLabelPosition(int top, int right, int bottom, int left) {
         labelBox.setPadding(new Insets(top, right, bottom, left));
     }
+
 }
