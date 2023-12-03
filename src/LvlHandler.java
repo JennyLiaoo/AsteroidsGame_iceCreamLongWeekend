@@ -8,9 +8,10 @@ public class LvlHandler implements Drawable{      //depending on user input, wil
     private final BoundaryHandler boundaryHandler = new BoundaryHandler();
 
 
-    public LvlHandler(int lvl) {
+    public LvlHandler(int lvl, GameOverCallback gameOverCallback) {
         level = levelFactory.getLevel(lvl);
-        player = new Player(1, 400, 300 );
+        player = new Player(5, 400, 300); // Initialize player with level 5
+        player.setGameOverCallback(gameOverCallback);
     }
 
     public Level getLevel() { //returns level obj
@@ -67,4 +68,7 @@ public class LvlHandler implements Drawable{      //depending on user input, wil
     public Player getPlayer() {
         return player;
     }
+
+
 }
+

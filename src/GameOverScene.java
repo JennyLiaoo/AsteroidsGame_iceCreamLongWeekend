@@ -1,18 +1,17 @@
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.input.MouseEvent; // Corrected import
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
-public class GameOverScene extends Application {
+public class GameOverScene {
 
     private Stage primaryStage;
 
-    @Override
-    public void start(Stage primaryStage) {
-        this.primaryStage = primaryStage; // Use the passed primaryStage
+    public GameOverScene(Stage primaryStage) {
+        this.primaryStage = primaryStage;
+    }
 
-
+    public Scene createGameOverScene() {
         primaryStage.setTitle("Game_Over");
 
         Title titlePane = new Title("GAME OVER");
@@ -27,7 +26,7 @@ public class GameOverScene extends Application {
 
 
         // Set background using BackgroundManager
-        BackgroundManager backgroundManager = new BackgroundManager("file:/Users/juliaqiu/Library/CloudStorage/OneDrive-AshburyCollege/Computer Science/AsteriodFinal/src/Images/userguide_background.png");
+        BackgroundManager backgroundManager = new BackgroundManager("file:src/Images/gameover_background.png");
         anchorPane.setBackground(backgroundManager.getBackground());
 
         // Add components to the AnchorPane and set their positions
@@ -37,20 +36,14 @@ public class GameOverScene extends Application {
         // Add components to the AnchorPane
         anchorPane.getChildren().addAll(titlePane.getVBox(), returnButton.getButtonBox());
 
-        // Create Scene and set it on primaryStage
-        Scene sceneStart = new Scene(anchorPane, 600, 400);
-        primaryStage.setScene(sceneStart);
-        primaryStage.show();
+        return new Scene(anchorPane, 600, 400);
     }
+    // Method to switch back to the start scene.
     private void switchBackToStart() {
-        // Create an instance of StartGameScene and set its scene
-        StartGameScene startGameScene = new StartGameScene();
+        // Make sure to pass the current primaryStage to the StartGameScene
+        StartGameScene startGameScene = new StartGameScene(primaryStage);
         primaryStage.setScene(startGameScene.createStartScene());
         primaryStage.show();
-    }
-
-    public static void main(String[] args) {
-        Application.launch(args);
     }
 }
 

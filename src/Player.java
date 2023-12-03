@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 public class Player extends Shooters{
+    private GameOverCallback gameOverCallback;
 
     private Image user = new Image("file:src/Images/spaceship.png");
     public Player(int level, double x, double y) {
@@ -84,5 +85,26 @@ public class Player extends Shooters{
     }
     public ArrayList<Bullet> getBullets() {
         return b;
+    }
+
+
+    // Method to decrease the player's level
+    public void decreaseLevel(int amount) {
+        lvl -= amount;
+        System.out.println("Player Level: " + lvl); // Print out the new level
+
+        if (lvl <= 0) {
+            gameOver();
+        }
+    }
+    public void setGameOverCallback(GameOverCallback callback) {
+        this.gameOverCallback = callback;
+    }
+    // Method to handle game over
+    private void gameOver() {
+        System.out.println("Game Over!");
+        if (gameOverCallback != null) {
+            gameOverCallback.onGameOver();
+        }
     }
 }

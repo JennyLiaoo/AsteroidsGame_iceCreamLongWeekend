@@ -1,59 +1,76 @@
-import javafx.animation.AnimationTimer;
 import javafx.application.Application;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
-import javafx.scene.input.KeyCode;
-import javafx.scene.layout.*;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import javafx.scene.input.KeyCode;
+import javafx.animation.AnimationTimer;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 
-public class Main extends Application {     //contains graphics, inputs and game loop. Will call on LvlHandler and SceneHandler to set up the game after choices completed
+public class Main extends Application {
+    private Stage primaryStage;
     private GraphicsContext gc;
     private LvlHandler lvlHandler;
     private Canvas canvas;
+
     public static void main(String[] args) {
-        launch(args); //auto call start
+        launch(args);
     }
 
     @Override
     public void start(Stage primaryStage) {
-        // Set the title for the window
-        primaryStage.setTitle("Asteroids");
-
-        // Initialize the game with a default level, e.g., level 1
-        startGame(primaryStage, 1);
+        this.primaryStage = primaryStage;
+        StartGameScene startScene = new StartGameScene(primaryStage);
+        Scene startSceneInstance = startScene.createStartScene();
+        startSceneInstance.getRoot().setUserData(this); // Set the user data to `Main` instance
+        primaryStage.setScene(startSceneInstance);
+        primaryStage.setTitle("Asteroid_JennyEmi_Version");
+        primaryStage.show();
     }
 
-    public void startGame(Stage primaryStage, int level) {
-        System.out.println("Starting game at Level: " + level);
 
-        StackPane gameRoot = new StackPane(); // Use StackPane for overlay
-        gameRoot.setStyle("-fx-background-color: black;"); // Set background color to black
+    public void startGame(int level) {
+        //resetGameState(level);
+        Scene gameScene = createGameScene(level);
+        primaryStage.setTitle("Asteroids");
+        primaryStage.setScene(gameScene);
+        primaryStage.show();
+    }
 
-        canvas = new Canvas(800, 600); // Use the member variable
-        gc = canvas.getGraphicsContext2D(); // Use the member variable
+
+    private Scene createGameScene(int level) {
+        this.lvlHandler = new LvlHandler(level, this::switchToGameOverScene);
+
+        StackPane gameRoot = new StackPane();
+        gameRoot.setStyle("-fx-background-color: black;");
+
+        canvas = new Canvas(800, 600);
+        gc = canvas.getGraphicsContext2D();
 
         Label levelLabel = createLevelLabel(level);
-        StackPane.setAlignment(levelLabel, Pos.TOP_RIGHT); // Align label to top right
-        StackPane.setMargin(levelLabel, new Insets(10)); // Margin for the label
+        StackPane.setAlignment(levelLabel, Pos.TOP_RIGHT);
+        StackPane.setMargin(levelLabel, new Insets(10));
 
-        gameRoot.getChildren().addAll(canvas, levelLabel); // Add both canvas and label to StackPane
-
-        lvlHandler = new LvlHandler(level); // Make sure LvlHandler is correctly implemented
+        gameRoot.getChildren().addAll(canvas, levelLabel);
 
         Scene gameScene = new Scene(gameRoot, 800, 600);
         setupKeyHandling(gameScene);
         setupGameLoop();
 
-        primaryStage.setScene(gameScene);
-        primaryStage.show();
+        return gameScene;
     }
 
+    private void switchToGameOverScene() {
+        GameOverScene gameOverSceneObj = new GameOverScene(primaryStage);
+        Scene gameOverScene = gameOverSceneObj.createGameOverScene();
+        primaryStage.setScene(gameOverScene);
+        primaryStage.show();
+    }
 
     private Label createLevelLabel(int level) {
         Label levelLabel = new Label("Level: " + level);
@@ -61,57 +78,38 @@ public class Main extends Application {     //contains graphics, inputs and game
         levelLabel.setFont(new Font("Arial", 20));
         return levelLabel;
     }
-// Create an ImageView and set its size
-    //ImageView player = new ImageView(image);
-    //player.setFitWidth(100);
-    //player.setFitHeight(100);
-    // player.setPreserveRatio(true);
 
-    // Add the ImageView to the layout
-    //StackPane stackPane = new StackPane();
-    //stackPane.getChildren().add(player);
-    //root.setTop(stackPane);
-    //
-    private void setupKeyHandling(Scene mainScene){
+    private void setupKeyHandling(Scene mainScene) {
         mainScene.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.W) {
-                // Move up
                 lvlHandler.getPlayer().accelerate();
             } else if (event.getCode() == KeyCode.D) {
-                // Rotate right
                 lvlHandler.getPlayer().turnRight();
             } else if (event.getCode() == KeyCode.A) {
-                // Rotate left
                 lvlHandler.getPlayer().turnLeft();
-            } else if (event.getCode() == KeyCode.M) {
-                //testing in progress
-                lvlHandler.replaceAsteroid();
-            } else if (event.getCode() == KeyCode.N) {
-                //testing in progress
-                lvlHandler.enhanceAsteroid();
-            }
-            if (event.getCode() == KeyCode.L) {
+            } else if (event.getCode() == KeyCode.L) {
                 lvlHandler.getPlayer().shoot();
-            } else if (event.getCode() == KeyCode.K) {
-                //would be same button as L but would call method that checks if player collided with powerUp already. if true, uses enhanced shoot
-                lvlHandler.getPlayer().shootEnhanced();
-            }
-            //level change testing
-            if (event.getCode() == KeyCode.I) { //level change test
-                lvlHandler = new LvlHandler(1);
-                System.out.println("Level 1");
-            }
-            if (event.getCode() == KeyCode.O) { //level change test
-                lvlHandler = new LvlHandler(2);
-                System.out.println("Level 2");
-            }
-            if (event.getCode() == KeyCode.P) { //level change test
-                lvlHandler = new LvlHandler(3);
-                System.out.println("Level 3");
             }
         });
     }
-    //creating the game loop
+
+    /*
+    private void resetGameState(int level) {
+        final int playerLevel = 5;
+        if (lvlHandler != null) {
+            lvlHandler.reset(playerLevel);
+        } else {
+            // If lvlHandler is null, you may need to initialize it again
+            lvlHandler = new LvlHandler(playerLevel, this::switchToGameOverScene);
+        }
+
+        if (gc != null) {
+            gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+        }
+    }
+
+     */
+
     private void setupGameLoop() {
         new AnimationTimer() {
             @Override
@@ -127,6 +125,4 @@ public class Main extends Application {     //contains graphics, inputs and game
             }
         }.start();
     }
-
-
 }

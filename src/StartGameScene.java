@@ -1,24 +1,18 @@
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
-public class StartGameScene extends Application {
+public class StartGameScene {
     private Stage primaryStage;
     private LevelLabel levelLabel;
 
-    @Override
-    public void start(Stage primaryStage) {
+    // Constructor to initialize with the primary stage.
+    public StartGameScene(Stage primaryStage) {
         this.primaryStage = primaryStage;
-        primaryStage.setTitle("Asteroid_JennyEmi_Version");
-        primaryStage.setScene(createStartScene());
-        primaryStage.show();
     }
 
-    Scene createStartScene() {
-        this.primaryStage = primaryStage; // Set the primaryStage field
-
+    public Scene createStartScene() {
         // Create components
         Title titlePane = new Title("ASTEROIDS");
         levelLabel = new LevelLabel();
@@ -28,14 +22,12 @@ public class StartGameScene extends Application {
 
         StartGameButton startGameButton = new StartGameButton(
                 () -> switchToGameScene());
-        UserGuidButton userGuideButton = new UserGuidButton( () ->
+
+        UserGuidButton userGuideButton = new UserGuidButton(() ->
                 switchToUserGuide());
 
         // Create AnchorPane for layout
         AnchorPane anchorPane = new AnchorPane();
-
-        // Set up mouse click event handler to print coordinates
-        anchorPane.setOnMouseClicked(this::handleMouseClick);
 
         // Set background using BackgroundManager
         BackgroundManager backgroundManager = new BackgroundManager("file:/Users/juliaqiu/IdeaProjects/DatabaseUI/src/Images/space_background.jpg");
@@ -70,22 +62,15 @@ public class StartGameScene extends Application {
 
     private void switchToGameScene() {
         int currentLevel = levelLabel.getCurrentLevel();
-        Main game = new Main();
-        game.startGame(primaryStage, currentLevel);
+
+        Main game = (Main) primaryStage.getScene().getRoot().getUserData();
+        game.startGame(currentLevel); // Now just passing the level.
     }
+
 
     private void switchToUserGuide() {
         // Switch to the User Guide scene
         new UserGuideScene(primaryStage).OpenUserGuide(primaryStage);
     }
 
-    private void handleMouseClick(MouseEvent event) {
-        double x = event.getX();
-        double y = event.getY();
-        System.out.println("Mouse clicked at: X=" + x + ", Y=" + y);
-    }
-
-    public static void main(String[] args) {
-        Application.launch(args);
-    }
 }

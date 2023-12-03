@@ -15,11 +15,12 @@ public class CollisionHandler {
         checkPlayerCollisions();
     }
 
-    public int checkPlayerCollisions() { //player with asteroid
+    public int checkPlayerCollisions() {
         ArrayList<Asteroid> asteroids = level.getAsteroids();
-        // Check player collision with asteroids
         for (int asteroidIndex = 0; asteroidIndex < asteroids.size(); asteroidIndex++) {
             if (player.isColliding(asteroids.get(asteroidIndex))) {
+                // Decrease player's level based on asteroid level
+                player.decreaseLevel(asteroids.get(asteroidIndex).getLevel());
                 return asteroidIndex;
             }
         }

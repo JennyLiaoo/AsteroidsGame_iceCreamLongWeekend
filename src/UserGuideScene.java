@@ -37,7 +37,7 @@ public class UserGuideScene extends Application {
         AnchorPane anchorPane = new AnchorPane();
 
         // Assuming ReturnButton is a custom class that creates a button
-        ReturnButton returnButton = new ReturnButton(() -> switchBackToStart(primaryStage));
+        ReturnButton returnButton = new ReturnButton(() -> switchBackToStart());
 
 
 
@@ -72,8 +72,9 @@ public class UserGuideScene extends Application {
     }
 
      */
-    private void switchBackToStart(Stage primaryStage) {
-        StartGameScene startGameScene = new StartGameScene();
+    private void switchBackToStart() {
+        // The StartGameScene class no longer extends Application and is used here directly
+        StartGameScene startGameScene = new StartGameScene(primaryStage);
         primaryStage.setScene(startGameScene.createStartScene());
         primaryStage.show();
     }
