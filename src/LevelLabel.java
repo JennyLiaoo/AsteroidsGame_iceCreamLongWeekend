@@ -13,22 +13,18 @@ public class LevelLabel {
         // Create label
         levelLabel = new Label("Level " + currentLevel);
         levelLabel.setFont(Font.font("Verdana", 22));
+        levelLabel.setTextFill(Color.WHITE);
 
         // Create HBox to hold the label
         labelBox = new HBox(levelLabel);
         labelBox.setSpacing(10);
-        levelLabel.setTextFill(Color.WHITE);
-
-
-        System.out.println("LevelLabel initialized with level: " + currentLevel);
 
     }
 
-    public HBox getLabelBox() {
+    public HBox getNode() {
         return labelBox;
     }
 
-    // Update the level label text based on the direction (left or right)
     public void updateLabel(boolean moveRight) {
         if (moveRight) {
             currentLevel++;
@@ -43,12 +39,11 @@ public class LevelLabel {
         levelLabel.setText("Level " + currentLevel);
     }
 
-    public int getCurrentLevel(){
+    public int getCurrentLevel() {
         return currentLevel;
     }
-    // Method to move the label around
+
     public void setLabelPosition(int top, int right, int bottom, int left) {
         labelBox.setPadding(new Insets(top, right, bottom, left));
     }
-
 }

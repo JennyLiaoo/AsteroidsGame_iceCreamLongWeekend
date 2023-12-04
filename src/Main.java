@@ -27,15 +27,17 @@ public class Main extends Application {
     }
 
     @Override
+// In your Main class
     public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
+        this.primaryStage.setUserData(this); // Set the Main instance as user data
         StartGameScene startScene = new StartGameScene(primaryStage);
         Scene startSceneInstance = startScene.createStartScene();
-        startSceneInstance.getRoot().setUserData(this); // Set the user data to `Main` instance
         primaryStage.setScene(startSceneInstance);
         primaryStage.setTitle("Asteroid_JennyEmi_Version");
         primaryStage.show();
     }
+
 
 
     public void startGame(int level) {
@@ -135,22 +137,6 @@ public class Main extends Application {
         });
     }
 
-    /*
-    private void resetGameState(int level) {
-        final int playerLevel = 5;
-        if (lvlHandler != null) {
-            lvlHandler.reset(playerLevel);
-        } else {
-            // If lvlHandler is null, you may need to initialize it again
-            lvlHandler = new LvlHandler(playerLevel, this::switchToGameOverScene);
-        }
-
-        if (gc != null) {
-            gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
-        }
-    }
-
-     */
 
     private void setupGameLoop() {
 
