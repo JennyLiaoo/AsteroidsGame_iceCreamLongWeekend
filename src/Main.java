@@ -27,15 +27,17 @@ public class Main extends Application {
     }
 
     @Override
+// In your Main class
     public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
+        this.primaryStage.setUserData(this); // Set the Main instance as user data
         StartGameScene startScene = new StartGameScene(primaryStage);
         Scene startSceneInstance = startScene.createStartScene();
-        startSceneInstance.getRoot().setUserData(this); // Set the user data to `Main` instance
         primaryStage.setScene(startSceneInstance);
         primaryStage.setTitle("Asteroid_JennyEmi_Version");
         primaryStage.show();
     }
+
 
 
     public void startGame(int level) {

@@ -63,9 +63,15 @@ public class StartGameScene {
     private void switchToGameScene() {
         int currentLevel = levelLabel.getCurrentLevel();
 
-        Main game = (Main) primaryStage.getScene().getRoot().getUserData();
-        game.startGame(currentLevel); // Now just passing the level.
+        // Retrieve the Main instance and call startGame with the selected level
+        Main mainApp = (Main) primaryStage.getUserData();
+        if (mainApp != null) {
+            mainApp.startGame(currentLevel);
+        } else {
+            System.out.println("Main application reference not found.");
+        }
     }
+
 
 
     private void switchToUserGuide() {
