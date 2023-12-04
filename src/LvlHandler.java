@@ -1,10 +1,12 @@
 import javafx.scene.canvas.GraphicsContext;
+
+import java.util.ArrayList;
+
 //each draw, new collision handler made. It checks if collide and returns the index of collision back to levelhandler. Levelhandler then removes the actual ones from array and does the stuff
 public class LvlHandler implements Drawable{      //depending on user input, will "create" a certain level using the level Factory
     private final LvlFactory levelFactory = new LvlFactory();
     private Level level;
     protected Player player;
-    protected CollisionHandler collisionHandler;
     private final BoundaryHandler boundaryHandler = new BoundaryHandler();
 
 
@@ -13,50 +15,61 @@ public class LvlHandler implements Drawable{      //depending on user input, wil
         player = new Player(5, 400, 300); // Initialize player with level 5
         player.setGameOverCallback(gameOverCallback);
     }
-
     public Level getLevel() { //returns level obj
         return level;
     }
 
-    public void replaceAsteroid() {
-        level.replaceAsteroid(0);
-    }       //need index of collided/enhanced asteroid
-    public void enhanceAsteroid() {
-        level.enhanceAsteroid(0);
-    }
     @Override
     public void draw(GraphicsContext pen) {
-
-
-        level.summonAsteroid(level.getProbAsteroid(), level.getLvl());
-        level.summonPower(level.getProbPower());
-        level.summonAlien(level.getProbAlien());
+        level.summonAll(level.getProbAsteroid(), level.getLvl(), level.getProbAlien(), level.getProbPower());
         level.draw(pen);
         player.drawBul(pen);
-        //collision stuff
-        collisionHandler = new CollisionHandler(level, player);         //change to end screen instead
-        int temp = collisionHandler.checkPlayerCollisions();
-        if(temp >= 0) {
-            level.getAsteroids().remove(temp);
-        }
-        PVector temp2 = collisionHandler.checkBulletCollisions();
-        if(temp2.getX() != -1 && temp2.getY() != -1) {
-            player.getBullets().remove((int)temp2.getX());
-            level.replaceAsteroid(temp2.getY());
 
-        }
-        PVector temp3 = collisionHandler.checkAsteroidCollisions();
-        if(temp3.getX() != -1 && temp3.getY() != -1) {
-            level.getPowerUps().remove((int)temp3.getX());
-            level.enhanceAsteroid((int)temp3.getY());
-        }
-        PVector temp4 = collisionHandler.checkAlienBulletCollision();       //change to end screen instead
-        if(temp4.getX() != -1 && temp4.getY() != -1) {
-            level.getAliens().get((int)temp4.getX()).getBullets().remove((int)temp4.getY());
-            level.getAliens().remove((int)temp4.getX());
+        ArrayList<GameObject> toAdd = new ArrayList<>();
+        ArrayList<GameObject> toRemove = new ArrayList<>();
 
+        for(int i = 0; i < level.getObjects().size(); i++) {
+            for(int j = 0; j < level.getObjects().size(); j++) {
+                if(!(level.getObjects().get(i) instanceof Asteroid && level.getObjects().get(j) instanceof Asteroid)) {
+                    if(level.getObjects().get(i) != level.getObjects().get(j)) {
+                        if(level.getObjects().get(i).isColliding(level.getObjects().get(j))) {
+                            ArrayList<GameObject> temp = level.getObjects().get(i).handleCollision(level.getObjects().get(j).isGoodGuy());
+                            if(temp != null) {
+                                toAdd.addAll(temp);
+                            }
+                            toRemove.add(level.getObjects().get(i));
+                        }
+                    }
+                }
+            }
         }
 
+        for(int i = 0; i < level.getObjects().size(); i++) {
+            if(player.isColliding(level.getObjects().get(i))) {
+                ArrayList<GameObject> temp = player.handleCollision(level.getObjects().get(i).isGoodGuy());
+                if(temp != null) {
+                    player = (Player)temp.get(0);
+                }
+                toRemove.add(level.getObjects().get(i));    //remove obj so doesn't collide quickly again
+            }
+        }
+        for(int j = 0; j < toRemove.size(); j++) {
+            level.getObjects().remove(toRemove.get(j));
+        }
+        level.getObjects().addAll(toAdd);
+
+        if(player.getLevel() <= 0) {
+            System.out.println("Game Over");
+        }
+
+    }
+    public void shoot() {
+        if(player.getTimer() > 0) {
+            level.gameObjects.addAll(player.shootEnhanced());
+        }
+        else {
+            level.getObjects().add(player.shoot());
+        }
 
     }
     public void drawPlayer(GraphicsContext pen) {
@@ -68,7 +81,4 @@ public class LvlHandler implements Drawable{      //depending on user input, wil
     public Player getPlayer() {
         return player;
     }
-
-
 }
-

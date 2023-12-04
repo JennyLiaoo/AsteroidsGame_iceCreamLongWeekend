@@ -1,15 +1,18 @@
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+
+import java.util.ArrayList;
 public class Bullet extends Entity{
     public Bullet(double rot, double x, double y) {
-        size = 20;
-        picture = new Image("images/spaceship.png");
+        size = 5;
+        picture = new Image("images/0spaceshipCropped.png");
         position = new PVector(x, y);
         velocity = new PVector();
-        velocity.setSize(5);
+        velocity.setSize(7);
         rotation = rot;
         velocity.setAngle(rotation);
         lvl = 1;
+        goodGuy = 0;
     }
     public void draw(GraphicsContext pen) {pen.drawImage(picture, position.getX(), position.getY(), size, size);
     }
@@ -19,14 +22,7 @@ public class Bullet extends Entity{
     }
 
     @Override
-    public boolean isColliding(GameObject other) {
-        PVector otherPosition = other.getPos();
-        double otherRadius = other.getSize();
-
-        double dx = position.getX() - otherPosition.getX();
-        double dy = position.getY() - otherPosition.getY();
-        double distance = Math.sqrt(dx * dx + dy * dy);
-
-        return distance < ((double) this.getSize() /2 + otherRadius/2);
+    public ArrayList<GameObject> handleCollision(boolean good) {
+        return null;
     }
 }
