@@ -1,4 +1,3 @@
-import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
@@ -18,37 +17,24 @@ public class GameOverScene {
     }
 
     public Scene createGameOverScene() {
-        primaryStage.setTitle("Game_Over");
+        primaryStage.setTitle("Game Over");
 
-        Title titlePane = new Title("GAME OVER");
+        TitlePane titlePane = new TitlePane("GAME OVER");
         AnchorPane anchorPane = new AnchorPane();
-
-        ReturnButton returnButton = new ReturnButton(() -> switchBackToStart());
-
+        ReturnButton returnButton = new ReturnButton(this::switchBackToStart);
         Label scoreLabel = createScoreLabel(finalScore);
 
-        // Position the score label in the center
-        AnchorPane.setTopAnchor(scoreLabel, 200.0); // Adjust these values as needed for centering
-        AnchorPane.setLeftAnchor(scoreLabel, 200.0);
-
-
-        // Set the position for the return button
-        AnchorPane.setTopAnchor(returnButton.getButtonBox(), 280.0);
-        AnchorPane.setLeftAnchor(returnButton.getButtonBox(), 280.0);
-
-
-        // Set background using BackgroundManager
+        // Set background
         BackgroundManager backgroundManager = new BackgroundManager("file:src/Images/gameover_background.png");
         anchorPane.setBackground(backgroundManager.getBackground());
 
-        // Add components to the AnchorPane and set their positions
-        AnchorPane.setTopAnchor(titlePane.getVBox(), 10.0);
-        AnchorPane.setLeftAnchor(titlePane.getVBox(), 65.0);
-
-        anchorPane.getChildren().addAll(titlePane.getVBox(), returnButton.getButtonBox(), scoreLabel);
+        // Using LayoutManager to arrange components
+        GameOverLayoutManager layoutManager = new GameOverLayoutManager(anchorPane);
+        layoutManager.setupLayout(titlePane, scoreLabel, returnButton);
 
         return new Scene(anchorPane, 600, 400);
     }
+
 
     private Label createScoreLabel(int score) {
         Label scoreLabel = new Label("Final Score: " + score);

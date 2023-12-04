@@ -31,7 +31,7 @@ public class Player extends Shooters{
                 // Handle other cases if needed
                 break;
         }
-        System.out.println("Score: " + score); // Print updated score
+        //System.out.println("Score: " + score); // Print updated score
     }
 
     public int getScore() {
@@ -115,7 +115,7 @@ public class Player extends Shooters{
     // Method to decrease the player's level
     public void decreaseLevel(int amount) {
         lvl -= amount;
-        System.out.println("Player Level: " + lvl); // Print out the new level
+        //System.out.println("Player Level: " + lvl); // Print out the new level
 
         if (lvl <= 0) {
             gameOver();
@@ -127,7 +127,7 @@ public class Player extends Shooters{
     }
     // Method to handle game over
     private void gameOver() {
-        System.out.println("Game Over!");
+        //System.out.println("Game Over!");
         if (gameOverCallback != null) {
             gameOverCallback.onGameOver();
         }

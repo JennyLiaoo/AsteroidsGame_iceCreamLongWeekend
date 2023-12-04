@@ -26,7 +26,7 @@ public class ControlButtons {
         buttonBox.setPadding(new Insets(70, 50, 0, 200)); // Adjust padding as needed
     }
 
-    public HBox getButtonBox() {
+    public HBox getNode() {
         return buttonBox;
     }
 }

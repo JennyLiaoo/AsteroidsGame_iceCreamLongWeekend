@@ -59,12 +59,10 @@ public class CollisionHandler {
                 // In case there are other levels or default score increment
                 break;
         }
-        printScore();
+
     }
 
-    private void printScore() {
-        System.out.println("Score: " + score);
-    }
+
 
     public PVector checkAsteroidCollisions() { //asteroid with power ups
         ArrayList<Asteroid> asteroids = level.getAsteroids();
@@ -94,6 +92,7 @@ public class CollisionHandler {
 
 
 
+  /*
     private void handlePlayerAsteroidCollision(int asteroidIndex) {
         // Logic for handling player-asteroid collision
         // Possible game over or damage to the player
@@ -104,6 +103,8 @@ public class CollisionHandler {
         // Logic to end the game
         System.out.println("Game Over!");
     }
+
+   */
 
     private void handlePlayerPowerUpCollision(int powerUpIndex) {
         // Logic for handling player-powerUp collision
