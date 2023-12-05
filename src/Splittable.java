@@ -1,10 +1,8 @@
-/**
- * Things that are splittable have different levels
- *
- * @author  Jenny Liao
- * @version 4.0
- * @since   2023-12-4
- */
+//
+// Source code recreated from a .class file by IntelliJ IDEA
+// (powered by FernFlower decompiler)
+//
+
 public interface Splittable {
-    public int getLevel();
+    int getLevel();
 }

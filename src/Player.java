@@ -1,162 +1,157 @@
-/**
- * Holds all the information about the Player
- *
- * @author  Jenny Liao
- * @version 4.0
- * @since   2023-12-4
- */
+//
+// Source code recreated from a .class file by IntelliJ IDEA
+// (powered by FernFlower decompiler)
+//
+
 import java.util.ArrayList;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-public class Player extends Shooters{
+
+public class Player extends Shooters {
     private GameOverCallback gameOverCallback;
     private int score;
-    private Image user = new Image("file:src/Images/0spaceshipCropped.png");
+    private Image user = new Image("file:src/Images/spaceship.png");
     private int timer;
+
     public Player(int level, double x, double y) {
-        size = 50;
-        this.position= new PVector(x, y);
-        this.velocity = new PVector(0, 0);
-        this.rotation = 0;
-        this.score=0;
-        lvl = level;
-        b = new ArrayList<>();
-        timer = 0;
-        goodGuy = 0;
+        this.size = 50;
+        this.position = new PVector(x, y);
+        this.velocity = new PVector(0.0, 0.0);
+        this.rotation = 0.0;
+        this.score = 0;
+        this.lvl = level;
+        this.b = new ArrayList();
+        this.timer = 0;
+        this.goodGuy = 0;
     }
-    public void incrementScore(int asteroidLevel) {
-        switch (asteroidLevel) {
+
+    public void incrementScore(int gameObjectLevel) {
+        switch (gameObjectLevel) {
             case 1:
-                score += 100;
+                this.score += 100;
                 break;
             case 2:
-                score += 200;
+                this.score += 200;
                 break;
             case 3:
-                score += 300;
-                break;
-            default:
-                // Handle other cases if needed
-                break;
+                this.score += 300;
         }
-        //System.out.println("Score: " + score); // Print updated score
+
     }
 
     public int getScore() {
-        return score;
+        return this.score;
     }
 
-    /**
-     * Player movement methods:
-     */
     public void accelerate() {
-        if(velocity.getSize() <= 5) {
-            velocity.setSize(velocity.getSize()+0.5);
+        if (this.velocity.getSize() <= 5.0) {
+            this.velocity.setSize(this.velocity.getSize() + 0.5);
+        } else {
+            this.velocity.setSize(this.velocity.getSize());
         }
-        else{
-            velocity.setSize(velocity.getSize());
-        }
-        velocity.setAngle(rotation);
-        rotation = velocity.getAngle();     //testing
+
+        this.velocity.setAngle(this.rotation);
+        this.rotation = this.velocity.getAngle();
     }
+
     public void deccelerate() {
-        velocity.setSize(velocity.getSize()-0.01);
+        this.velocity.setSize(this.velocity.getSize() - 0.01);
     }
+
     public void turnRight() {
-        rotation += 10;
+        this.rotation += 10.0;
     }
+
     public void turnLeft() {
-        rotation -= 10;
+        this.rotation -= 10.0;
     }
-    @Override
+
     public void move() {
         super.move();
-        if(timer > 0) {
-            timer--;
+        if (this.timer > 0) {
+            --this.timer;
         }
+
     }
-    /**
-     * Player can shoot bullets
-     * @return Bullet
-     */
+
     public Bullet shoot() {
-        Bullet temp = new Bullet(this.rotation, this.position.getX(), this.position.getY());
-        for(int i = 0; i < 8; i++) {
+        PlayerBullet temp = new PlayerBullet(this.rotation, this.position.getX(), this.position.getY());
+
+        for(int i = 0; i < 8; ++i) {
             temp.move();
         }
+
         return temp;
     }
-    /**
-     * Player can shoot multiple bullets
-     * @return ArrayList<Bullet>
-     */
+
     public ArrayList<Bullet> shootEnhanced() {
-        ArrayList<Bullet> temporary = new ArrayList<>();
-        double tempAngle = 0;
-        while(tempAngle <= 360) {   //shoots bullets in all different directions
-            Bullet temp = new Bullet(tempAngle, this.position.getX()+size, this.position.getY()+size);
-            for(int i = 0; i < 10; i++) {
+        ArrayList<Bullet> temporary = new ArrayList();
+
+        for(double tempAngle = 0.0; tempAngle <= 360.0; tempAngle += 20.0) {
+            PlayerBullet temp = new PlayerBullet(tempAngle, this.position.getX() + (double)this.size, this.position.getY() + (double)this.size);
+
+            for(int i = 0; i < 10; ++i) {
                 temp.move();
             }
+
             temporary.add(temp);
-            tempAngle +=20;
         }
+
         return temporary;
     }
 
     public void draw(GraphicsContext pen) {
-        move();
-        pen.drawImage(user, -size/2.0, -size/2.0, size, size);
+        this.move();
+        pen.drawImage(this.user, (double)(-this.size) / 2.0, (double)(-this.size) / 2.0, (double)this.size, (double)this.size);
     }
-    public void setPos(double x, double y) { position = new PVector(x, y);}
 
-    /**
-     * Handles collisions for the player
-     * @return ArrayList<GameObject>
-     */
-    @Override
-    public ArrayList<GameObject> handleCollision(boolean good) {
-        ArrayList<GameObject> temp = new ArrayList<>();
-        if(good) {
-            double chance = Math.random()*9+1;
-            if(chance >= 5) {
-                timer = 80; //timer for how long players can shoot enhanced bullets
-            }
-            else {
-                lvl++;
-            }
-            return null;
-        }
-        else {
-            decreaseLevel(1);
-            temp.add(new Player(lvl, position.getX(), position.getY()));
-        }
-        return temp;
+    public void setPos(double x, double y) {
+        this.position = new PVector(x, y);
     }
-    /**
-     * resets player
-     * @param amount, int
-     */
+
+    public ArrayList<GameObject> handleCollision(boolean good) {
+        ArrayList<GameObject> temp = new ArrayList();
+        if (good) {
+            double chance = Math.random() * 9.0 + 1.0;
+            if (chance >= 5.0) {
+                this.timer = 80;
+            } else {
+                ++this.lvl;
+            }
+
+            return null;
+        } else {
+            this.decreaseLevel(1);
+            Player p = new Player(this.lvl, this.position.getX(), this.position.getY());
+            p.setScore(this.getScore());
+            temp.add(p);
+            return temp;
+        }
+    }
+
     public void decreaseLevel(int amount) {
-        lvl -= amount;
-        position.setPos(400, 300);
-        //System.out.println("Player Level: " + lvl); // Print out the new level
-        if (lvl <= 0) {
-            gameOver();
+        this.lvl -= amount;
+        if (this.lvl <= 0) {
+            this.gameOver();
         }
     }
 
     public void setGameOverCallback(GameOverCallback callback) {
         this.gameOverCallback = callback;
     }
-    // Method to handle game over
+
     private void gameOver() {
-        System.out.println("Game Over!");
-        if (gameOverCallback != null) {
-            gameOverCallback.onGameOver();
+        if (this.gameOverCallback != null) {
+            this.gameOverCallback.onGameOver();
         }
     }
+
+
     public int getTimer() {
-        return timer;
+        return this.timer;
+    }
+
+    public void setScore(int s) {
+        this.score = s;
     }
 }

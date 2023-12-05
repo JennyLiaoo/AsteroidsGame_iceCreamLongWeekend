@@ -1,16 +1,12 @@
-/**
- * Handles entities which reach their boundaries
- *
- * @author  Jenny Liao
- * @version 4.0
- * @since   2023-12-4
- */
+import java.util.ArrayList;
 public class BoundaryHandler {
-    public double checkX(double x) {        //checks x position
+
+    public double checkX(double x) {
         if(x >= 800) {
             x = -50;
         }
-        else if(x <= -50) {                 //checks y position
+
+        else if(x <= -50) {
             x = 800;
         }
         return x;
@@ -24,12 +20,6 @@ public class BoundaryHandler {
         }
         return y;
     }
-
-    /**
-     * checks all objects and their boundaries
-     * @param a, GameObject
-     * @return boolean
-     */
     public boolean checkObjects(GameObject a) {
         if(a instanceof Alien) {
             return checkAlien((Alien) a);
@@ -39,16 +29,12 @@ public class BoundaryHandler {
         }
         return false;
     }
-
-    /**
-     * Aliens have special boundaries :) they do not go off screen
-     * @param a, Alien
-     * @return boolean
-     */
     public boolean checkAlien(Alien a) {
         if(a.getPos().getX() > 750 || a.getPos().getY() > 550 || a.getPos().getX() < 0 || a.getPos().getY() < 0) {
             return true;
         }
         return false;
     }
+
+
 }

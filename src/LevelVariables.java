@@ -1,62 +1,52 @@
-/**
- * Holds each level's variables and levels
- * @author  Jenny Liao
- * @version 4.0
- * @since   2023-12-4
- */
+//
+// Source code recreated from a .class file by IntelliJ IDEA
+// (powered by FernFlower decompiler)
+//
+
 import java.util.ArrayList;
 
 public abstract class LevelVariables {
-    protected AsteroidFactory asteroidFactory = new AsteroidFactory(); // could change to entity factory
+    protected AsteroidFactory asteroidFactory = new AsteroidFactory();
     protected LevelGenerator levelGenerator = new LevelGenerator();
-    protected ArrayList<GameObject>  gameObjects = new ArrayList<>();
+    protected ArrayList<GameObject> gameObjects = new ArrayList();
     protected PowerFactory powerFactory = new PowerFactory();
-    protected EntityGenerator entityGenerator =  new EntityGenerator();
+    protected EntityGenerator entityGenerator = new EntityGenerator();
     protected AlienFactory alienFactory = new AlienFactory();
-    protected BoundaryHandler boundaryHandler= new BoundaryHandler();
+    protected BoundaryHandler boundaryHandler = new BoundaryHandler();
 
-    /**
-     * Summons all entities
-     * @param probAsteroid, int
-     * @param probAlien, int
-     * @param probPower, int
-     */
+    public LevelVariables() {
+    }
+
     public void summonAll(int probAsteroid, int lvlAsteroid, int probAlien, int probPower) {
-        summonAsteroid(probAsteroid, lvlAsteroid);
-        summonAlien(probAlien);
-        summonPower(probPower);
+        this.summonAsteroid(probAsteroid, lvlAsteroid);
+        this.summonAlien(probAlien);
+        this.summonPower(probPower);
     }
 
-    /**
-     * Summons asteroids
-     * @param prob, int
-     * @param lvl, int
-     */
     public void summonAsteroid(int prob, int lvl) {
-        boolean generated = entityGenerator.checkIfGenerate(prob);
-        if(generated) {
-            gameObjects.add(asteroidFactory.getAsteroid(levelGenerator.generateLvl(lvl)));
+        boolean generated = this.entityGenerator.checkIfGenerate((double)prob);
+        if (generated) {
+            AsteroidFactory var10001 = this.asteroidFactory;
+            this.gameObjects.add(AsteroidFactory.getAsteroid(this.levelGenerator.generateLvl(lvl)));
         }
-    }
-    /**
-     * Summons aliens
-     * @param prob, int
-     */
-    public void summonAlien(int prob) {
-        boolean generated = entityGenerator.checkIfGenerate(prob);
-        if(generated) {
-            gameObjects.add(alienFactory.getAlien());
-        }
+
     }
 
-    /**
-     * Summons powers
-     * @param prob, int
-     */
-    public void summonPower(int prob) { //if collide with smt, it will disappear
-        boolean generated = entityGenerator.checkIfGenerate(prob);
-        if(generated) {
-            gameObjects.add(powerFactory.getPower());
+    public void summonAlien(int prob) {
+        boolean generated = this.entityGenerator.checkIfGenerate((double)prob);
+        if (generated) {
+            AlienFactory var10001 = this.alienFactory;
+            this.gameObjects.add(AlienFactory.getAlien());
         }
+
+    }
+
+    public void summonPower(int prob) {
+        boolean generated = this.entityGenerator.checkIfGenerate((double)prob);
+        if (generated) {
+            PowerFactory var10001 = this.powerFactory;
+            this.gameObjects.add(PowerFactory.getPower());
+        }
+
     }
 }

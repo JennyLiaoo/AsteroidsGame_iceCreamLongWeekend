@@ -1,76 +1,91 @@
-/**
- * PVectors for handling positions and velocities!!
- *
- * @author  Jenny Liao
- * @version 4.0
- * @since   2023-12-4
- */
+//
+// Source code recreated from a .class file by IntelliJ IDEA
+// (powered by FernFlower decompiler)
+//
+
 public class PVector {
-    private double x;       //tracks x
-    private double y;       //tracks y
-    public PVector() {       //initial Vector position is 0, 0
-        this.setPos(0, 0);
+    private double x;
+    private double y;
+
+    public PVector() {
+        this.setPos(0.0, 0.0);
     }
-    public PVector(double xPos, double yPos) {       //set position of object when created
+
+    public PVector(double xPos, double yPos) {
         this.setPos(xPos, yPos);
     }
-    public void setPos(double xPos, double yPos) {  //set position when needed
-        x = xPos;
-        y = yPos;
+
+    public void setPos(double xPos, double yPos) {
+        this.x = xPos;
+        this.y = yPos;
     }
-    /**
-     * PVectors methods for different movements
-     */
-    public void add(double xAdd, double yAdd) {    //when moving at constant velocity in some direction
-        x += xAdd;
-        y += yAdd;
+
+    public void add(double xAdd, double yAdd) {
+        this.x += xAdd;
+        this.y += yAdd;
     }
-    public void mult(double xyMul) {               //moving at constant acceleration at xyMul
-        x *= xyMul;
-        y *= xyMul;
+
+    public void mult(double xyMul) {
+        this.x *= xyMul;
+        this.y *= xyMul;
     }
-    public double getSize() {                        //returns size of vector based on xpos and ypos using pythagorean
-        return Math.abs(Math.sqrt(x*x + y*y));
+
+    public double getSize() {
+        return Math.abs(Math.sqrt(this.x * this.x + this.y * this.y));
     }
+
     public void setSize(double S) {
         double currentSize = this.getSize();
-        if(currentSize==0) {        //check if vector is 0
-            setPos(S, 0);
+        if (currentSize == 0.0) {
+            this.setPos(S, 0.0);
+        } else {
+            this.mult(1.0 / currentSize);
+            this.mult(S);
         }
-        else{
-            this.mult(1/currentSize);      //handles if previous vector exists
-            this.mult(S);                         //changes vector size
-        }
-    }
-    public double getAngle() {return Math.toDegrees(Math.atan2(this.y, this.x));}
-    public void setAngle(double angle) {         //find new values of x and y, given fixed value of size
-        double size = this.getSize();
-        while (angle <= 0) {
-            double temp = Math.abs(angle);
-            angle = 360 - temp;
-        }
-        while (angle >=360) {
-            angle -= 360;
-        }
-        double angleinRad = Math.toRadians(angle);
-        if (angle >= 0 && angle < 90) {
-            x = Math.abs(size * Math.cos(angleinRad));
-            y = Math.abs(size * Math.sin(angleinRad));
-        }
-        else if (angle >= 90 && angle < 180) {
-            x = -Math.abs(size * Math.cos(angleinRad));
-            y = Math.abs(size * Math.sin(angleinRad));
-        }
-        if (angle >= 180 && angle < 270) {
-            x = -Math.abs(size * Math.cos(angleinRad));
-            y = -Math.abs(size * Math.sin(angleinRad));
-        }
-        if (angle >= 270 && angle < 360) {
-            x = Math.abs(size * Math.cos(angleinRad));
-            y = -Math.abs(size * Math.sin(angleinRad));
-        }
-    }
-    public double getX() {return x;}
-    public double getY() {return y;}
 
+    }
+
+    public double getAngle() {
+        return Math.toDegrees(Math.atan2(this.y, this.x));
+    }
+
+    public void setAngle(double angle) {
+        double size;
+        double angleinRad;
+        for(size = this.getSize(); angle <= 0.0; angle = 360.0 - angleinRad) {
+            angleinRad = Math.abs(angle);
+        }
+
+        while(angle >= 360.0) {
+            angle -= 360.0;
+        }
+
+        angleinRad = Math.toRadians(angle);
+        if (angle >= 0.0 && angle < 90.0) {
+            this.x = Math.abs(size * Math.cos(angleinRad));
+            this.y = Math.abs(size * Math.sin(angleinRad));
+        } else if (angle >= 90.0 && angle < 180.0) {
+            this.x = -Math.abs(size * Math.cos(angleinRad));
+            this.y = Math.abs(size * Math.sin(angleinRad));
+        }
+
+        if (angle >= 180.0 && angle < 270.0) {
+            this.x = -Math.abs(size * Math.cos(angleinRad));
+            this.y = -Math.abs(size * Math.sin(angleinRad));
+        }
+
+        if (angle >= 270.0 && angle < 360.0) {
+            this.x = Math.abs(size * Math.cos(angleinRad));
+            this.y = -Math.abs(size * Math.sin(angleinRad));
+        }
+
+    }
+
+    public double getX() {
+        return this.x;
+    }
+
+    public double getY() {
+        return this.y;
+    }
 }

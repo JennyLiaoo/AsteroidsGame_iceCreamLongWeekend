@@ -1,10 +1,3 @@
-/**
- * Has all bullet information
- *
- * @author  Jenny Liao
- * @version 4.0
- * @since   2023-12-4
- */
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
@@ -28,11 +21,6 @@ public class Bullet extends Entity{
         velocity.setAngle(rotation);
     }
 
-    /**
-     * Handles collision with bullets, returns null to tell LvlHandler to delete it
-     * @param good, boolean
-     * @return ArrayList<GameObject>
-     */
     @Override
     public ArrayList<GameObject> handleCollision(boolean good) {
         return null;

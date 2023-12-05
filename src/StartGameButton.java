@@ -1,27 +1,33 @@
-import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
 import javafx.geometry.Insets;
 
-public class StartGameButton {
-
+public class StartGameButton implements IGuiComponent {
+    private Runnable clickToStart;
+    private Button startButton = new Button("Click to Start");
     private HBox buttonBox;
-    private Button startButton;
 
-    public StartGameButton (Runnable clickToStart) {
-        startButton = new Button("CLICK TO START");
-        String buttonStyle = "-fx-font: 22 arial; -fx-base: BLACK;";
-        startButton.setStyle(buttonStyle);
+    public StartGameButton(Runnable clickToStart) {
+        this.clickToStart = clickToStart;
 
-        // Set the action event for the start button
-        startButton.setOnAction(event -> clickToStart.run());
+        if (this.clickToStart == null) {
+            throw new IllegalArgumentException("clickToStart action must not be null");
+        }
 
-        // Positioning the buttons in HBox
-        buttonBox = new HBox(90, startButton);
-        buttonBox.setPadding(new Insets(70, 50, 0, 200)); // Adjust padding as needed
+        this.startButton.setStyle("-fx-font: 22 arial; -fx-base: BLACK;");
+        this.startButton.setOnAction(event -> this.clickToStart.run());
+
+        this.buttonBox = new HBox(this.startButton);
+        this.buttonBox.setPadding(new Insets(70.0, 50.0, 0.0, 200.0));
     }
 
-    public HBox getNode() {
-        return buttonBox;
+    @Override
+    public Node createNode() {
+        return this.buttonBox;
+    }
+
+    public Node getNode() {
+        return this.createNode();
     }
 }

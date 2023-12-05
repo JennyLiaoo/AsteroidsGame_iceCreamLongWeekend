@@ -1,24 +1,23 @@
-/**
- * Main class
- *
- * @author
- * @version 4.0
- * @since   2023-12-4
- */
+//
+// Source code recreated from a .class file by IntelliJ IDEA
+// (powered by FernFlower decompiler)
+//
+
+import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import javafx.scene.input.KeyCode;
-import javafx.animation.AnimationTimer;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 
 public class Main extends Application {
     private Stage primaryStage;
@@ -28,14 +27,16 @@ public class Main extends Application {
     private Label scoreLabel;
     private Label playerLevelLabel;
 
+    public Main() {
+    }
+
     public static void main(String[] args) {
         launch(args);
     }
-    @Override
-// In your Main class
+
     public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
-        this.primaryStage.setUserData(this); // Set the Main instance as user data
+        this.primaryStage.setUserData(this);
         StartGameScene startScene = new StartGameScene(primaryStage);
         Scene startSceneInstance = startScene.createStartScene();
         primaryStage.setScene(startSceneInstance);
@@ -44,118 +45,104 @@ public class Main extends Application {
     }
 
     public void startGame(int level) {
-        //resetGameState(level);
-        Scene gameScene = createGameScene(level);
-        primaryStage.setTitle("Asteroids");
-        primaryStage.setScene(gameScene);
-        primaryStage.show();
+        Scene gameScene = this.createGameScene(level);
+        this.primaryStage.setTitle("Asteroids");
+        this.primaryStage.setScene(gameScene);
+        this.primaryStage.show();
     }
 
     private Scene createGameScene(int level) {
         this.lvlHandler = new LvlHandler(level, this::switchToGameOverScene);
-
         StackPane gameRoot = new StackPane();
         gameRoot.setStyle("-fx-background-color: black;");
-
-        canvas = new Canvas(800, 600);
-        gc = canvas.getGraphicsContext2D();
-
-        Label levelLabel = createLevelLabel(level);
+        this.canvas = new Canvas(800.0, 600.0);
+        this.gc = this.canvas.getGraphicsContext2D();
+        Label levelLabel = this.createLevelLabel(level);
         StackPane.setAlignment(levelLabel, Pos.TOP_RIGHT);
-        StackPane.setMargin(levelLabel, new Insets(10));
-
-        this.scoreLabel = createScoreKeeperLabel(lvlHandler.getPlayer().getScore()); // Initialize score label
-        StackPane.setAlignment(scoreLabel, Pos.TOP_LEFT);
-        StackPane.setMargin(scoreLabel, new Insets(10));
-
-        this.playerLevelLabel = createPlayerLevelLabel(lvlHandler.getPlayer().getLevel()); // Initialize player level label
-        StackPane.setAlignment(playerLevelLabel, Pos.BOTTOM_CENTER);
-        StackPane.setMargin(playerLevelLabel, new Insets(10, 0, 20, 0)); // Adjust margins as needed
-
-        gameRoot.getChildren().addAll(canvas, levelLabel, scoreLabel, playerLevelLabel); // Add player level label to the root
-
-        Scene gameScene = new Scene(gameRoot, 800, 600);
-        setupKeyHandling(gameScene);
-        setupGameLoop();
-
+        StackPane.setMargin(levelLabel, new Insets(10.0));
+        this.scoreLabel = this.createScoreKeeperLabel(this.lvlHandler.getPlayer().getScore());
+        StackPane.setAlignment(this.scoreLabel, Pos.TOP_LEFT);
+        StackPane.setMargin(this.scoreLabel, new Insets(10.0));
+        this.playerLevelLabel = this.createPlayerLevelLabel(this.lvlHandler.getPlayer().getLevel());
+        StackPane.setAlignment(this.playerLevelLabel, Pos.BOTTOM_CENTER);
+        StackPane.setMargin(this.playerLevelLabel, new Insets(10.0, 0.0, 20.0, 0.0));
+        gameRoot.getChildren().addAll(new Node[]{this.canvas, levelLabel, this.scoreLabel, this.playerLevelLabel});
+        Scene gameScene = new Scene(gameRoot, 800.0, 600.0);
+        this.setupKeyHandling(gameScene);
+        this.setupGameLoop();
         return gameScene;
     }
 
-
     private void switchToGameOverScene() {
-        int finalScore = lvlHandler.getPlayer().getScore(); // Get the final score from the player
-
-        GameOverScene gameOverSceneObj = new GameOverScene(primaryStage, finalScore); // Create a GameOverScene object
-        Scene gameOverScene = gameOverSceneObj.createGameOverScene(); // Create the scene
-
-        primaryStage.setScene(gameOverScene);
-        primaryStage.show();
+        Platform.runLater(() -> {
+            int finalScore = this.lvlHandler.getPlayer().getScore();
+            GameOverScene gameOverSceneObj = new GameOverScene(this.primaryStage, finalScore);
+            Scene gameOverScene = gameOverSceneObj.createGameOverScene();
+            this.primaryStage.setScene(gameOverScene);
+            this.primaryStage.show();
+        });
     }
-
     private Label createLevelLabel(int level) {
         Label levelLabel = new Label("Level: " + level);
         levelLabel.setTextFill(Color.WHITE);
-        levelLabel.setFont(new Font("Arial", 20));
+        levelLabel.setFont(new Font("Arial", 20.0));
         return levelLabel;
     }
 
     private Label createScoreKeeperLabel(int score) {
         Label scoreKeeperLabel = new Label("CurrentScore: " + score);
         scoreKeeperLabel.setTextFill(Color.WHITE);
-        scoreKeeperLabel.setFont(new Font("Arial", 20));
+        scoreKeeperLabel.setFont(new Font("Arial", 20.0));
         return scoreKeeperLabel;
     }
+
     private void updateScoreDisplay() {
         Platform.runLater(() -> {
-            scoreLabel.setText("Score: " + lvlHandler.getPlayer().getScore());
+            this.scoreLabel.setText("Score: " + this.lvlHandler.getPlayer().getScore());
         });
     }
+
     private Label createPlayerLevelLabel(int level) {
         Label levelLabel = new Label("Life Remain: " + level);
-        levelLabel.setTextFill(Color.WHITE); // Set the text color
-        levelLabel.setFont(new Font("Arial", 20)); // Set the font size and style as needed
+        levelLabel.setTextFill(Color.WHITE);
+        levelLabel.setFont(new Font("Arial", 20.0));
         return levelLabel;
     }
 
     private void updatePlayerLevelDisplay() {
         Platform.runLater(() -> {
-            playerLevelLabel.setText("Life Remain: " + lvlHandler.getPlayer().getLevel());
+            this.playerLevelLabel.setText("Life Remain: " + this.lvlHandler.getPlayer().getLevel());
         });
     }
-
-
 
     private void setupKeyHandling(Scene mainScene) {
-        mainScene.setOnKeyPressed(event -> {
+        mainScene.setOnKeyPressed((event) -> {
             if (event.getCode() == KeyCode.W) {
-                lvlHandler.getPlayer().accelerate();
+                this.lvlHandler.getPlayer().accelerate();
             } else if (event.getCode() == KeyCode.D) {
-                lvlHandler.getPlayer().turnRight();
+                this.lvlHandler.getPlayer().turnRight();
             } else if (event.getCode() == KeyCode.A) {
-                lvlHandler.getPlayer().turnLeft();
+                this.lvlHandler.getPlayer().turnLeft();
             } else if (event.getCode() == KeyCode.L) {
-                lvlHandler.shoot();
+                this.lvlHandler.shoot();
             }
+
         });
     }
 
-
     private void setupGameLoop() {
-
-        new AnimationTimer() {
-            @Override
+        (new AnimationTimer() {
             public void handle(long now) {
-                gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
-                lvlHandler.draw(gc);
-
-                gc.save();
-                gc.translate(lvlHandler.getPlayer().getPos().getX(), lvlHandler.getPlayer().getPos().getY());
-                gc.rotate(lvlHandler.getPlayer().getAngle());
-                lvlHandler.drawPlayer(gc);
-                gc.restore();
-                updateScoreDisplay(); // Update the score display
-                updatePlayerLevelDisplay();
+                Main.this.gc.clearRect(0.0, 0.0, Main.this.canvas.getWidth(), Main.this.canvas.getHeight());
+                Main.this.lvlHandler.draw(Main.this.gc);
+                Main.this.gc.save();
+                Main.this.gc.translate(Main.this.lvlHandler.getPlayer().getPos().getX(), Main.this.lvlHandler.getPlayer().getPos().getY());
+                Main.this.gc.rotate(Main.this.lvlHandler.getPlayer().getAngle());
+                Main.this.lvlHandler.drawPlayer(Main.this.gc);
+                Main.this.gc.restore();
+                Main.this.updateScoreDisplay();
+                Main.this.updatePlayerLevelDisplay();
             }
-        }.start();
+        }).start();
     }
 }

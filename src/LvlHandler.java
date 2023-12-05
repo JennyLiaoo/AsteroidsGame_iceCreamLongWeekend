@@ -1,89 +1,90 @@
-/**
- * Level handler, manages everything when the game starts. It contains the player and the level while checking for the collisions between objects
- *
- * @author  Jenny Liao
- * @version 4.0
- * @since   2023-12-4
- */
-import javafx.scene.canvas.GraphicsContext;
+//
+// Source code recreated from a .class file by IntelliJ IDEA
+// (powered by FernFlower decompiler)
+//
 
 import java.util.ArrayList;
+import javafx.scene.canvas.GraphicsContext;
 
-public class LvlHandler implements Drawable{
+public class LvlHandler implements Drawable {
     private final LvlFactory levelFactory = new LvlFactory();
     private Level level;
     protected Player player;
     private final BoundaryHandler boundaryHandler = new BoundaryHandler();
 
     public LvlHandler(int lvl, GameOverCallback gameOverCallback) {
-        level = levelFactory.getLevel(lvl);
-        player = new Player(5, 400, 300); // Initialize player with level 5
-        player.setGameOverCallback(gameOverCallback);
-    }
-    public Level getLevel() { //returns level obj
-        return level;
+        LvlFactory var10001 = this.levelFactory;
+        this.level = LvlFactory.getLevel(lvl);
+        this.player = new Player(5, 400.0, 300.0);
+        this.player.setGameOverCallback(gameOverCallback);
     }
 
-    /**
-     * Update everything in a level
-     * @param pen, GraphicsContext
-     */
-    @Override
-    public void draw(GraphicsContext pen) {
-        level.summonAll(level.getProbAsteroid(), level.getLvl(), level.getProbAlien(), level.getProbPower());
-        level.draw(pen);
-        checkCollisions();
+    public Level getLevel() {
+        return this.level;
     }
-    /**
-     * Checks collisions between all objects
-     */
+
+    public void draw(GraphicsContext pen) {
+        this.level.summonAll(this.level.getProbAsteroid(), this.level.getLvl(), this.level.getProbAlien(), this.level.getProbPower());
+        this.level.draw(pen);
+        this.checkCollisions();
+    }
+
     public void checkCollisions() {
-        ArrayList<GameObject> toAdd = new ArrayList<>();
-        ArrayList<GameObject> toRemove = new ArrayList<>();
-        for(int i = 0; i < level.getObjects().size(); i++) {        //collision between all objects
-            for(int j = 0; j < level.getObjects().size(); j++) {
-                if(!(level.getObjects().get(i) instanceof Asteroid && level.getObjects().get(j) instanceof Asteroid)) {
-                    if(level.getObjects().get(i) != level.getObjects().get(j)) {
-                        if(level.getObjects().get(i).isColliding(level.getObjects().get(j))) {
-                            ArrayList<GameObject> temp = level.getObjects().get(i).handleCollision(level.getObjects().get(j).isGoodGuy());
-                            if(temp != null) {toAdd.addAll(temp);}
-                            toRemove.add(level.getObjects().get(i));
-                        }
+        ArrayList<GameObject> toAdd = new ArrayList();
+        ArrayList<GameObject> toRemove = new ArrayList();
+
+        int i;
+        for(i = 0; i < this.level.getObjects().size(); ++i) {
+            for(int j = 0; j < this.level.getObjects().size(); ++j) {
+                if ((!(this.level.getObjects().get(i) instanceof Asteroid) || !(this.level.getObjects().get(j) instanceof Asteroid)) && this.level.getObjects().get(i) != this.level.getObjects().get(j) && ((GameObject)this.level.getObjects().get(i)).isColliding((GameObject)this.level.getObjects().get(j))) {
+                    ArrayList<GameObject> temp = ((GameObject)this.level.getObjects().get(i)).handleCollision(((GameObject)this.level.getObjects().get(j)).isGoodGuy());
+                    if (temp != null) {
+                        toAdd.addAll(temp);
+                    }
+
+                    toRemove.add((GameObject)this.level.getObjects().get(i));
+                    if (this.level.getObjects().get(i) instanceof PlayerBullet) {
+                        this.player.incrementScore(((GameObject)this.level.getObjects().get(j)).getLevel());
                     }
                 }
             }
         }
-        for(int i = 0; i < level.getObjects().size(); i++) {
-            if(player.isColliding(level.getObjects().get(i))) {     //player collisions
-                ArrayList<GameObject> temp = player.handleCollision(level.getObjects().get(i).isGoodGuy());
-                if(temp != null) {player = (Player)temp.get(0);}
-                toRemove.add(level.getObjects().get(i));    //remove obj so doesn't collide quickly again
+
+        for(i = 0; i < this.level.getObjects().size(); ++i) {
+            if (this.player.isColliding((GameObject)this.level.getObjects().get(i))) {
+                ArrayList<GameObject> temp = this.player.handleCollision(((GameObject)this.level.getObjects().get(i)).isGoodGuy());
+                if (temp != null) {
+                    this.player = (Player)temp.get(0);
+                }
+
+                toRemove.add((GameObject)this.level.getObjects().get(i));
             }
         }
-        for(int j = 0; j < toRemove.size(); j++) {                  //removes all objects that should be removed
-            level.getObjects().remove(toRemove.get(j));
+
+        for(i = 0; i < toRemove.size(); ++i) {
+            this.level.getObjects().remove(toRemove.get(i));
         }
-        level.getObjects().addAll(toAdd);                           //adds all objects that have been created from collisions
+
+        this.level.getObjects().addAll(toAdd);
     }
-    /**
-     * allows the player to shoot in a certain way depending on if the player hit a power up
-     */
+
     public void shoot() {
-        if(player.getTimer() > 0) {level.gameObjects.addAll(player.shootEnhanced());}
-        else {level.getObjects().add(player.shoot());}
+        if (this.player.getTimer() > 0) {
+            this.level.gameObjects.addAll(this.player.shootEnhanced());
+        } else {
+            this.level.getObjects().add(this.player.shoot());
+        }
 
     }
-    /**
-     * draws player
-     * @param pen, GraphicsContext
-     */
+
     public void drawPlayer(GraphicsContext pen) {
-        player.draw(pen);
-        player.setPos(boundaryHandler.checkX(player.getPos().getX()), boundaryHandler.checkY(player.getPos().getY()));
-        player.deccelerate();
-        level.setPlayerPos(player.getPos().getX(), player.getPos().getY());
+        this.player.draw(pen);
+        this.player.setPos(this.boundaryHandler.checkX(this.player.getPos().getX()), this.boundaryHandler.checkY(this.player.getPos().getY()));
+        this.player.deccelerate();
+        this.level.setPlayerPos(this.player.getPos().getX(), this.player.getPos().getY());
     }
+
     public Player getPlayer() {
-        return player;
+        return this.player;
     }
 }
