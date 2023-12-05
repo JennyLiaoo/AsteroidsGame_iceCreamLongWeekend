@@ -1,3 +1,10 @@
+/**
+ * Main class
+ *
+ * @author
+ * @version 4.0
+ * @since   2023-12-4
+ */
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Scene;
@@ -21,11 +28,9 @@ public class Main extends Application {
     private Label scoreLabel;
     private Label playerLevelLabel;
 
-
     public static void main(String[] args) {
         launch(args);
     }
-
     @Override
 // In your Main class
     public void start(Stage primaryStage) {
@@ -38,8 +43,6 @@ public class Main extends Application {
         primaryStage.show();
     }
 
-
-
     public void startGame(int level) {
         //resetGameState(level);
         Scene gameScene = createGameScene(level);
@@ -47,7 +50,6 @@ public class Main extends Application {
         primaryStage.setScene(gameScene);
         primaryStage.show();
     }
-
 
     private Scene createGameScene(int level) {
         this.lvlHandler = new LvlHandler(level, this::switchToGameOverScene);

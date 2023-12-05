@@ -9,10 +9,10 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 
-public class TitlePane {
+public class Title {
     private VBox vbox;
 
-    public TitlePane(String titleText) {
+    public Title(String titleText) {
         // Creating the title text with animation
         Text title = new Text(titleText);
         title.setFont(Font.font("Verdana", 75));
@@ -33,7 +33,7 @@ public class TitlePane {
         VBox.setMargin(title, new Insets(70, 0, 0, 0)); // Adjust title position
     }
 
-    public VBox getNode() {
+    public VBox getVBox() {
         return vbox;
     }
 }

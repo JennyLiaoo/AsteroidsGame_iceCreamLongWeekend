@@ -1,6 +1,13 @@
-
+/**
+ * Entity abstract class for all interacting "things" within the game that move
+ *
+ * @author  Jenny Liao
+ * @version 4.0
+ * @since   2023-12-4
+ */
 import javafx.scene.canvas.GraphicsContext;
-public abstract class Entity extends GameObject implements Collideable, Drawable, Moveable, Splittable{
+public abstract class Entity extends GameObject implements Moveable, Splittable{     //implements interfaces
+    //instance variables for all entities
     protected PVector velocity;
     protected double rotation;
     protected int lvl;

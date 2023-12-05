@@ -1,3 +1,10 @@
+/**
+ * Holds all information about powers
+ *
+ * @author  Jenny Liao
+ * @version 4.0
+ * @since   2023-12-4
+ */
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
@@ -16,18 +23,24 @@ public class PowerUp extends GameObject{
         pen.drawImage(picture, position.getX(), position.getY(), size, size);
     }
 
+    /**
+     * Handles collision, returns null to tell LvlHandler to delete it
+     * @param good, boolean
+     * @return ArrayList<GameObject>
+     */
     @Override
     public ArrayList<GameObject> handleCollision(boolean good) {
         return null;
     }
 
+    /**
+     * In an improved project, the power ups would move too, but in specific ways different to asteroids and aliens
+     */
     @Override
     public double getAngle() {
         return 0;
     }
 
     @Override
-    public void move() {
-
-    }
+    public void move() {}
 }

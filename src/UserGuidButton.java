@@ -2,12 +2,12 @@ import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
 
-public class UserGuideButton {
+public class UserGuidButton {
 
     private HBox buttonBox;
     private Button userGuideButton;
 
-    public UserGuideButton(Runnable userGuide) {
+    public UserGuidButton(Runnable userGuide) {
         userGuideButton = new Button("help?");
         String buttonStyle = "-fx-font: 22 arial; -fx-base: WHITE;";
         userGuideButton.setStyle(buttonStyle);
@@ -20,7 +20,7 @@ public class UserGuideButton {
         buttonBox.setPadding(new Insets(70, 50, 0, 200)); // Adjust padding as needed
     }
 
-    public HBox getNode() {
+    public HBox getButtonBox() {
         return buttonBox;
     }
 }

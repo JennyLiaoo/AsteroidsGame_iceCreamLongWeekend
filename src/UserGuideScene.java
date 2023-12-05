@@ -56,9 +56,9 @@ public class UserGuideScene extends Application {
 
         // Create and configure the user guide image
         UserGuideImages spaceship = new UserGuideImages("file:src/Images/spaceship.png");
-        spaceship.setSize(190, 190);
-        AnchorPane.setTopAnchor(spaceship.getImageView(), 100.0);
-        AnchorPane.setLeftAnchor(spaceship.getImageView(), 20.0);
+        spaceship.setSize(230, 230);
+        AnchorPane.setTopAnchor(spaceship.getImageView(), 80.0);
+        AnchorPane.setLeftAnchor(spaceship.getImageView(), -10.0);
 
 
 
@@ -69,6 +69,16 @@ public class UserGuideScene extends Application {
         return new Scene(anchorPane, 600, 400);
     }
 
+    /*
+    private void switchBackToSceneHandler(Stage primaryStage) {
+        // Switch back to the SceneHandler scene
+        // This assumes that SceneHandler is set up to create and return its initial scene
+        SceneHandler sceneHandler = new SceneHandler();
+        primaryStage.setScene(sceneHandler.createInitialScene());
+        primaryStage.show();
+    }
+
+     */
     private void switchBackToStart() {
         // The StartGameScene class no longer extends Application and is used here directly
         StartGameScene startGameScene = new StartGameScene(primaryStage);

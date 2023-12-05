@@ -1,10 +1,15 @@
+/**
+ * Alien class, has all details for aliens!
+ *
+ * @author  Jenny Liao
+ * @version 4.0
+ * @since   2023-12-4
+ */
 import javafx.scene.image.Image;
 import javafx.scene.canvas.GraphicsContext;
-
 import java.util.ArrayList;
 
 public class Alien extends Shooters{
-
     public Alien(double x, double y, double angle) {
         position = new PVector(x, y);
         velocity = new PVector(0, 0);
@@ -27,6 +32,13 @@ public class Alien extends Shooters{
         lvl = 1;
         goodGuy = 0;
     }
+
+    /**
+     * Alien shoots bullet from the Alien itself towards the player
+     * @param xPlayer, double
+     * @param yPlayer, double
+     * @return Bullet
+     */
     public Bullet shoot(double xPlayer, double yPlayer) { //takes player position
         double a = Math.atan2(yPlayer-position.getY(), xPlayer-position.getX());
         double temp2 = Math.toDegrees(a);
@@ -36,35 +48,32 @@ public class Alien extends Shooters{
             temp.move();
         }
         return temp;
-
     }
 
-    public double getAngle() {
-        return velocity.getAngle();
-
-    }
+    /**
+     * Getters and setters
+     */
+    public double getAngle() {return velocity.getAngle();}
     public void setAngle(double a) {
         velocity.setAngle(a);
         rotation = a;
-
     }
-    public void draw(GraphicsContext pen) {
-        pen.drawImage(picture, position.getX(), position.getY(), size, size);
+    public void draw(GraphicsContext pen) {pen.drawImage(picture, position.getX(), position.getY(), size, size);}
 
-    }
-
+    /**
+     * Alien handles what happens to itself if it collides
+     * @param good, boolean
+     * @return ArrayList<GameObject>
+     */
     @Override
     public ArrayList<GameObject> handleCollision(boolean good) {
         ArrayList<GameObject> temp = new ArrayList<>();
-        if(good) {
+        if(good) {              //good is any good entity
             temp.add(new Alien(position.getX(), position.getY(), rotation, velocity.getSize()+1));
         }
         else {
-            return null;
+            return null;        //tells LvlHandler to remove alien
         }
         return temp;
-    }
-    public ArrayList<Bullet> getBullets() {
-        return b;
     }
 }
