@@ -18,6 +18,7 @@ public class UserGuidButton {
         // Positioning the buttons in HBox
         buttonBox = new HBox(90, userGuideButton);
         buttonBox.setPadding(new Insets(70, 50, 0, 200)); // Adjust padding as needed
+        buttonBox.setPadding(new Insets(70, 50, 0, 200)); // Adjust padding as needed
     }
 
     public HBox getButtonBox() {

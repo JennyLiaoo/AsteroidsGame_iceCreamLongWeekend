@@ -139,22 +139,6 @@ public class Main extends Application {
         });
     }
 
-    /*
-    private void resetGameState(int level) {
-        final int playerLevel = 5;
-        if (lvlHandler != null) {
-            lvlHandler.reset(playerLevel);
-        } else {
-            // If lvlHandler is null, you may need to initialize it again
-            lvlHandler = new LvlHandler(playerLevel, this::switchToGameOverScene);
-        }
-
-        if (gc != null) {
-            gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
-        }
-    }
-
-     */
 
     private void setupGameLoop() {
 
