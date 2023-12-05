@@ -132,7 +132,7 @@ public class Main extends Application {
             } else if (event.getCode() == KeyCode.A) {
                 lvlHandler.getPlayer().turnLeft();
             } else if (event.getCode() == KeyCode.L) {
-                lvlHandler.getPlayer().shoot();
+                lvlHandler.shoot();
             }
         });
     }
