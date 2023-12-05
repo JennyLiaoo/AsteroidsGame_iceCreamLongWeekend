@@ -1,7 +1,7 @@
 import javafx.scene.canvas.GraphicsContext;
 public class LevelOne extends Level{        //contains all the information about a specific level, (i,e probability of generating things.)
-    public static final int probAsteroid = 15;
-    public static final int probPower = 3;
+    public static final int probAsteroid = 20;
+    public static final int probPower = 15;
     public static final int probAlien = 0;
 
     @Override

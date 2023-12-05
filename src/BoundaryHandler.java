@@ -1,13 +1,6 @@
 import java.util.ArrayList;
 public class BoundaryHandler {
-    /*
-    public ArrayList<Asteroid> checkAsteroids(ArrayList<Asteroid> asteroids) {
-        for(int i = 0; i < asteroids.size(); i++) {
 
-        }
-    }
-
-     */
     public double checkX(double x) {
         if(x >= 800) {
             x = -50;
@@ -27,7 +20,10 @@ public class BoundaryHandler {
         }
         return y;
     }
-    public boolean checkAsteroid(Asteroid a) {
+    public boolean checkObjects(GameObject a) {
+        if(a instanceof Alien) {
+            return checkAlien((Alien) a);
+        }
         if(a.getPos().getX() >= 1200 || a.getPos().getY() >= 1000 || a.getPos().getX() <= -400 || a.getPos().getY() <= -400) {
             return true;
         }
